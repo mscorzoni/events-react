@@ -75,6 +75,20 @@ class EventDasboard extends Component {
       isOpen: false
     })
 	}
+
+	handleUpdateEvent = (updatedEvent) => {
+		this.setState({
+			events: this.state.events.map(event => {
+				if(event.id === updatedEvent.id){
+					return Object.assign({}, updatedEvent);
+				} else {
+					return event
+				}
+			}),
+			isOpen: false,
+			selectedEvent: null
+		})
+	}
 	
 	handleCreateEvent = (newEvent) => {
 		newEvent.id = cuid();
@@ -86,10 +100,17 @@ class EventDasboard extends Component {
 		})
 	}
 
-	handleEditEvent = (eventToUpdate) => () => {
+	handleOpenEvent = (eventToOpen) => () => {
 		this.setState({
-			selectedEvent: eventToUpdate,
+			selectedEvent: eventToOpen,
 			isOpen: true
+		})
+	}
+
+	handleDeleteEvent = (eventId) => () => {
+		const updatedEvents = this.state.events.filter(e => e.id !== eventId);
+		this.setState({
+			events: updatedEvents
 		})
 	}
 
@@ -97,7 +118,10 @@ class EventDasboard extends Component {
 		const {selectedEvent} = this.state;
     return <Grid>
         <Grid.Column width={10}>
-          <EventList onEventEdit={this.handleEditEvent} events={this.state.events}/>
+					<EventList
+							deleteEvent={this.handleDeleteEvent}
+							onEventOpen={this.handleOpenEvent}
+							events={this.state.events}/>
         </Grid.Column>
         <Grid.Column width={6}>
           <Button positive
@@ -106,6 +130,7 @@ class EventDasboard extends Component {
                 />
           {this.state.isOpen &&  
 						<EventForm 
+							updateEvent={this.handleUpdateEvent}
 							createEvent={this.handleCreateEvent}
 							handleCancel={this.handleCancel}
 							selectedEvent={selectedEvent} 
