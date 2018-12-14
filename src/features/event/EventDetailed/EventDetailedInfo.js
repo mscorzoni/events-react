@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { Segment, Grid, Icon, Button } from 'semantic-ui-react';
 import EventDetailedMap from './EventDetailedMap';
+import format from "date-fns/format";
+
 
 class EventDetailedInfo extends Component {
 	state = {
@@ -15,8 +17,7 @@ class EventDetailedInfo extends Component {
 
 	render() {
 		const {event} = this.props;
-		return (
-			<Segment.Group>
+		return <Segment.Group>
 				<Segment attached="top">
 					<Grid>
 						<Grid.Column width={1}>
@@ -33,7 +34,9 @@ class EventDetailedInfo extends Component {
 							<Icon name="calendar" size="large" color="teal" />
 						</Grid.Column>
 						<Grid.Column width={15}>
-							<span>{event.date}</span>
+							<span>
+								{format(event.date, "dddd Do MMMM")} at {format(event.date, "h:mm A")}
+							</span>
 						</Grid.Column>
 					</Grid>
 				</Segment>
@@ -46,18 +49,12 @@ class EventDetailedInfo extends Component {
 							<span>{event.venue}</span>
 						</Grid.Column>
 						<Grid.Column width={4}>
-							<Button
-								 onClick={this.showMapToggle}
-								 color="teal" 
-								 size="tiny" 
-								 content="Show Map" />
+							<Button onClick={this.showMapToggle} color="teal" size="tiny" content="Show Map" />
 						</Grid.Column>
 					</Grid>
 				</Segment>
-				{this.state.showMap &&
-				<EventDetailedMap lat={event.venueLatLng.lat} lag={event.venueLatLng.lng} />}
-			</Segment.Group>
-		);
+				{this.state.showMap && <EventDetailedMap lat={event.venueLatLng.lat} lag={event.venueLatLng.lng} />}
+			</Segment.Group>;
 	}
 }
 
