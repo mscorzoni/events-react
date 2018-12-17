@@ -70,4 +70,7 @@ class BasicPage extends Component {
   }
 }
 
-export default reduxForm({form: 'userProfile', enableReinitialize: true})(BasicPage);
+export default reduxForm({form: 'userProfile', 
+                          enableReinitialize: true,
+                          destroyOnUnmount: false 
+                        })(BasicPage);
