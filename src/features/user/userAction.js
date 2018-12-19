@@ -16,7 +16,7 @@ export const updateProfile = (user) =>
     }
   }
 
-  export const updateProfileImage = (file, fileName) => 
+  export const uploadProfileImage = (file, fileName) => 
     async (dispatch, getState, {getFirebase, getFirestore}) => {
       const firebase = getFirebase();
       const firestore = getFirestore();
